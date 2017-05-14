@@ -1,0 +1,29 @@
+<div class="form-group">
+  <label>Filter by type</label>
+  <select
+    class="form-control"
+    ng-model="$ctrl.filterFieldType"
+    ng-change="$ctrl.filterFields()"
+    ng-options="type for type in $ctrl.fieldTypes">
+    <option value=""></option>
+  </select>
+</div>
+
+<div class="fields-container" app-infinite-scroll on-scroll="$ctrl.loadMore()">
+  <app-field ng-repeat="field in $ctrl.fields" field="field"></app-field>
+</div>
+
+<button
+  class="btn btn-primary"
+  ng-show="!$ctrl.allLoaded && $ctrl.fields.length"
+  ng-click="$ctrl.loadMore()">Load more</button>
+
+<div ng-show="$ctrl.isLoading">Loading...</div>
+
+<div
+  class="alert alert-warning"
+  ng-show="!$ctrl.fields.length">No fields yet.</div>
+
+<div
+  class="alert alert-warning"
+  ng-if="$ctrl.error">{{ ::$ctrl.error }}</div>

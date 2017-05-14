@@ -1,0 +1,57 @@
+<div class="panel panel-primary">
+  <div class="panel-body">
+    <div ng-switch="$ctrl.field.type">
+      <label>
+        {{ ::$ctrl.field.label }}
+        <a href ng-click="$ctrl.edit()">Edit</a>
+      </label>
+      <div ng-switch-when="select">
+        <select
+          class="form-control col-sm-{{$ctrl.field.size}}"
+          ng-model="some"
+          ng-options="option for option in $ctrl.field.choices"
+          name="$ctrl.field.id"
+          ng-if="!$ctrl.isEditing"></select>
+        <div class="edit" ng-if="$ctrl.isEditing">
+          <div class="input-group form-group" ng-repeat="option in $ctrl.field.choices track by $index">
+            <input
+              type="text"
+              class="form-control"
+              ng-model="$ctrl.field.choices[$index]">
+            <span class="input-group-btn">
+              <button class="btn btn-default" ng-click="$ctrl.removeChoice(option)">Remove</button>
+            </span>
+          </div>
+          <p>
+            <button class="btn btn-primary" ng-click="$ctrl.addChoice()">Add</button>
+          </p>
+        </div>
+      </div>
+      <div ng-switch-when="text">
+        <div class="form-group">
+          <textarea
+            class="form-control"
+            name="$ctrl.field.id"
+            ng-disabled="!$ctrl.isEditing"
+            ng-model="$ctrl.field.value"></textarea>
+        </div>
+      </div>
+      <div ng-switch-when="bool">
+        <label ng-if="!$ctrl.isEditing">
+          <input type="checkbox" name="$ctrl.field.id">
+          {{ ::$ctrl.field.value }}
+        </label>
+        <div class="form-group" ng-if="$ctrl.isEditing">
+          <input class="form-control" type="text" ng-model="$ctrl.field.value">
+        </div>
+      </div>
+    </div>
+    <p class="text-danger" ng-if="$ctrl.error">
+      {{ ::$ctrl.error }}
+    </p>
+    <div class="field-actions" ng-if="$ctrl.isEditing">
+      <button class="btn btn-success" ng-click="$ctrl.saveField($ctrl.field.id)">Save</button>
+      <button class="btn btn-primary" ng-click="$ctrl.cancelChanges()">Cancel</button>
+    </div>
+  </div>
+</div>
