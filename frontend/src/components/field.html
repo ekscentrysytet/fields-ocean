@@ -6,13 +6,22 @@
         <a href ng-click="$ctrl.edit()">Edit</a>
       </label>
       <div ng-switch-when="select">
-        <select
-          class="form-control col-sm-{{$ctrl.field.size}}"
-          ng-model="some"
-          ng-options="option for option in $ctrl.field.choices"
-          name="$ctrl.field.id"
-          ng-if="!$ctrl.isEditing"></select>
+        <div class="row">
+          <div class="col-sm-{{$ctrl.field.size}}">
+            <select
+              class="form-control"
+              ng-model="some"
+              ng-options="option for option in $ctrl.field.choices"
+              name="$ctrl.field.id"
+              ng-if="!$ctrl.isEditing"></select>
+          </div>
+        </div>
         <div class="edit" ng-if="$ctrl.isEditing">
+          <div class="form-group">
+            <label>Size</label>
+            <input class="form-control" type="number" min="1" max="12" ng-model="$ctrl.field.size">
+          </div>
+          <label>Choices</label>
           <div class="input-group form-group" ng-repeat="option in $ctrl.field.choices track by $index">
             <input
               type="text"

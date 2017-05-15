@@ -6,12 +6,13 @@ class FieldController {
   }
 
   $onInit() {
-    if (!this.isSelectTypeField()) {
+    if (!this._isSelectTypeField()) {
       this.initialValue = this.field.value.substring(0);
     }
 
-    if (this.isSelectTypeField()) {
+    if (this._isSelectTypeField()) {
       this.initialChoices = this.field.choices.slice();
+      this.initialSize = Number(this.field.size);
     }
   }
 
@@ -24,13 +25,7 @@ class FieldController {
       .then(() => {
         this.isEditing = false;
 
-        if (!this.isSelectTypeField()) {
-          this.initialValue = this.field.value;
-        }
-
-        if (this.isSelectTypeField()) {
-          this.initialChoices = this.field.choices;
-        }
+        this._setInitials();
       })
       .catch(err => {
         this.error = err.data.errors.message;
@@ -38,13 +33,7 @@ class FieldController {
   }
 
   cancelChanges() {
-    if (!this.isSelectTypeField()) {
-      this.field.value = this.initialValue;
-    }
-
-    if (this.isSelectTypeField()) {
-      this.field.choices = this.initialChoices;
-    }
+    this._resetToInitial();
 
     this.isEditing = false;
   }
@@ -57,8 +46,30 @@ class FieldController {
     this.field.choices = this.field.choices.filter(option => option !== choice);
   }
 
-  isSelectTypeField() {
+  _isSelectTypeField() {
     return this.field.type === 'select';
+  }
+
+  _setInitials() {
+    if (!this._isSelectTypeField()) {
+      this.initialValue = this.field.value;
+    }
+
+    if (this._isSelectTypeField()) {
+      this.initialChoices = this.field.choices;
+      this.initialSize = Number(this.field.size);
+    }
+  }
+
+  _resetToInitial() {
+    if (!this._isSelectTypeField()) {
+      this.field.value = this.initialValue;
+    }
+
+    if (this._isSelectTypeField()) {
+      this.field.choices = this.initialChoices.slice();
+      this.field.size = Number(this.initialSize);
+    }
   }
 }
 
