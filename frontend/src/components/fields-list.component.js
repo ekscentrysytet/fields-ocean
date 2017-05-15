@@ -39,7 +39,11 @@ class FieldsListController {
     this._FieldsService.getFields(this.filterFieldType, this.fields.length)
       .then(res => {
         this.isLoading = false;
-        this.fields = this.fields.concat(res.data.results);
+        if (res.data.results.length) {
+          res.data.results.forEach(field => {
+            this.fields.push(field);
+          });
+        }
         this._checkLoaded(res.data.count);
       })
       .catch(err => {

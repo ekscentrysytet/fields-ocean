@@ -1,5 +1,5 @@
 class HeaderController {
-  /* @ngInject */
+  /** @ngInject */
   constructor(AppConstants) {
     this.appName = AppConstants.appName;
   }
